@@ -35,8 +35,8 @@ Conditions tell under witch condition the instruction should be executed.
 |4|GEQ|Execute when comparison returned greater or equals|
 |5|LT|Execute when comparison returned less than|
 |6|LEQ|Execute when comparison returned less or equals|
-|7|TRU|Execute when last bit red was 1|
-|8|FAL|Execute when last bit red was 0|
+|7|TRU|Execute when REB returned 1|
+|8|FAL|Execute when REB returned 0|
 |15|NOP|Do not execute|
 
 ### Special Registers
@@ -77,6 +77,7 @@ Conditions tell under witch condition the instruction should be executed.
 ### Example code
 Following code writes Fibonacci sequence to the TTY
 
+```
 	LDV	0	1		//i
 	LDV	1	2		//j
 	LDV	10	10		//ENTER to reg 10
@@ -90,3 +91,4 @@ WAIT:
 TRU	JMP	WAIT		//Wait until TTY is ready
 	MOV	10	30	0	//Enter
 	JMP	FIBONACCI
+```

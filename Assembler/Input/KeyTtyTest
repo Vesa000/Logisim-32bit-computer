@@ -1,0 +1,8 @@
+		
+
+READKEY:
+	REB	31	4		//Character available from keyboard
+FAL	JMP	READKEY
+	MOV	29	1		//Keyboard to reg1
+	MOV	1	30	0	//Write reg1 to tty as ascii
+	JMP	READKEY			//return to start

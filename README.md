@@ -25,6 +25,7 @@ Instructions follow the format below:
 #### Conditions
 
 Conditions tell under witch condition the instruction should be executed.
+
 |Number|Instruction|Behavior|
 |------|-----------|--------|
 |0|ALW|Always execute|
@@ -79,8 +80,6 @@ Following code writes Fibonacci sequence to the TTY
 	LDV	0	1		//i
 	LDV	1	2		//j
 	LDV	10	10		//ENTER to reg 10
-
-
 FIBONACCI:
 	ADD	1	2	3	//k=i+j
 	MOV	2	1		//i=j

@@ -1,0 +1,89 @@
+START:
+	LDV	12	1		// Clear screen
+	MOV	1	30	0	//Write reg1 to tty as ascii
+
+	LDV	43	1		// + to reg1
+	LDV	45	2		// - to reg2
+	LDV	47	3		// / to reg3
+	LDV	42	4		// * to reg4
+	LDV	10	5		// Enter to reg5 and also 10 for multiplication/division
+	LDV	8	6		// Backspace to reg6
+	LDV	0	9		// IsfirstOperation
+	LDV	0	10		// Reg to hold 0
+	LDV	48	14		// 48 to reg 14
+
+READKEY:
+	REB	31	4		//Character available from keyboard
+FAL	JMP	READKEY
+	MOV	29	7		//Keyboard to reg1
+	MOV	7	30	0	//Write reg1 to tty as ascii
+
+	CMP	7	1
+EQ	JMP	SELECTOPERATION
+	CMP	7	2
+EQ	JMP	SELECTOPERATION
+	CMP	7	3
+EQ	JMP	SELECTOPERATION
+	CMP	7	4
+EQ	JMP	SELECTOPERATION
+	CMP	7	5
+EQ	JMP	ENTER
+	CMP	7	6
+EQ	JMP	START 			//Backspace
+
+	SUB	7	14	7	//-48 to get number from ascii character	
+
+	CMP	9	10
+NEQ	JMP	SECOND
+	MUL	8	5	8	// REG8 *= 10
+	ADD	8	7	8	// REG8 += REG7
+	JMP	READKEY			//return to start
+
+SECOND:
+	MUL	11	5	11	// REG11 *= 10
+	ADD	11	7	11	// REG11 += REG7
+	JMP	READKEY			//return to start
+
+SELECTOPERATION:
+	MOV	7	12		// move operand to reg 12
+	LDV	1	9		// start writing to second operand
+	JMP	READKEY			//return to start
+
+ENTER:
+	CMP	12	1
+EQ	JMP	PLUS
+	CMP	12	2
+EQ	JMP	MINUS
+	CMP	12	3
+EQ	JMP	DIVIDE
+	CMP	12	4
+EQ	JMP	MULTIPLY
+
+PLUS:
+	ADD	8	11	13
+	JMP	ENTEREND
+
+MINUS:
+	SUB	8	11	13
+	JMP	ENTEREND
+
+DIVIDE:
+	DIV	8	11	13
+	JMP	ENTEREND
+
+MULTIPLY:
+	MUL	8	11	13
+	JMP	ENTEREND
+
+ENTEREND:
+	MOV	13	30	2	//Write REG13 to TTY as unsigned
+ENTER2:
+	REB	31	5		
+TRU	JMP	ENTER2			//Wait until TTY is ready
+	MOV	5	30	0	//Write ENTER to TTY as ascii
+
+	LDV	0	8		//Clear registers
+	LDV	0	11
+	LDV	0	9
+	LDV	0	13
+	JMP	READKEY

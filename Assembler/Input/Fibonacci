@@ -1,0 +1,15 @@
+	LDV	0	1		//i
+	LDV	1	2		//j
+	LDV	10	10		//ENTER to reg 10
+
+
+FIBONACCI:
+	ADD	1	2	3	//k=i+j
+	MOV	2	1		//i=j
+	MOV	3	2		//j=k
+	MOV	2	30	2	//Write j to screen as number
+WAIT:
+	REB	31	5		
+TRU	JMP	WAIT			//Wait until TTY is ready
+	MOV	10	30	0	//Enter
+	JMP	FIBONACCI
